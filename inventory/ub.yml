@@ -1,0 +1,74 @@
+---
+## YAML based inventory, see:
+## https://docs.ansible.com/ansible/latest/plugins/inventory/yaml.html
+#
+# Example using mix of distros
+# Overriding some defaults at hostgroup and individual guest levels
+# Note that the virt_infra_variant are not set to specific versions,
+# this is to make it work on different hosts
+# Note also that CentOS 8 needs the path to system Python
+ub:
+  hosts:
+    ubuntu2:
+      virt_infra_state: running
+      virt_infra_distro: ubuntu
+      virt_infra_distro_image: focal-server-cloudimg-amd64.img
+      virt_infra_distro_image_url: http://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img
+      virt_infra_distro_image_checksum_url: http://cloud-images.ubuntu.com/focal/current/SHA256SUMS
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    virt_infra_disks:
+      - name: "boot"
+        bus: "virtio"
+      #- name: "data-scsi"
+        #size: "40"
+      #- name: "data-ssd"
+        #ssd: "true"
+      #- name: "data-sata"
+        #bus: "sata"
+      #- name: "data-virtio"
+      #  bus: "virtio"
+
+#<interface type="bridge">
+#  <mac address="52:54:00:f3:1c:54"/>
+#  <source bridge="eno1"/>
+#  <model type="virtio"/>
+#  <address type="pci" domain="0x0000" bus="0x01" slot="0x00" function="0x0"/>
+#</interface>
+#host-bridge
+
+    virt_infra_networks:
+      - name: br0
+        type: "bridge"
+        #model: "virtio"
+       #- host_dev: "eno1"
+       #  name: "eno1"
+       #  type: "direct"
+       #  model: "virtio"
+
+
+#<interface type="direct">
+#  <mac address="52:54:00:f3:1c:54"/>
+#  <source dev="eno1" mode="bridge"/>
+#  <model type="virtio"/>
+#  <address type="pci" domain="0x0000" bus="0x01" slot="0x00" function="0x0"/>
+#</interface>
+
+    #virt_infra_networks:
+    #  - name: "default"
+
+# Password of default user (consider a vault if you need secure passwords)
+# No root password by default
+    virt_infra_password: "password"
+    virt_infra_root_password: "root.password"
+
+# SSH keys are a list, you can add more than one
+# If not specified, we default to all public keys on KVM host
+    virt_infra_ssh_keys: []
+
+# If no SSH keys are specified or found on the KVM host, we create one with this
+    virt_infra_ssh_key_size: "2048"
+    virt_infra_ssh_key_type: "rsa"
+
+# Whether to enable SSH password auth
+    virt_infra_ssh_pwauth: true
