@@ -12,17 +12,17 @@ kvmhost:
     localhost:
       ansible_connection: local
       ansible_python_interpreter: /usr/bin/python3
-  vars:
-    # Networks are a list, you can add more than one
-    # You can create and remove NAT networks on kvmhost (creating bridges not supported)
-    # The 'default' network is the standard one shipped with libvirt
-    # By default we don't remove any networks (empty absent list)
-    virt_infra_host_networks:
-      absent:
-        - name: "other"
-      present:
-        - name: "default"
-          ip_address: "192.168.112.1"
-          subnet: "255.255.255.0"
-          dhcp_start: "192.168.112.2"
-          dhcp_end: "192.168.112.254"
+#  vars:
+#    # Networks are a list, you can add more than one
+#    # You can create and remove NAT networks on kvmhost (creating bridges not supported)
+#    # The 'default' network is the standard one shipped with libvirt
+#    # By default we don't remove any networks (empty absent list)
+#    virt_infra_host_networks:
+#      absent:
+#        - name: "other"
+#      present:
+#        - name: "default"
+#          ip_address: "192.168.112.1"
+#          subnet: "255.255.255.0"
+#          dhcp_start: "192.168.112.2"
+#          dhcp_end: "192.168.112.254"
